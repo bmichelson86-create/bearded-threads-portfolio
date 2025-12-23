@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessories - Bearded Threads</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #000000;
+            color: #000;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .logo-header {
+            height: 40px;
+            width: auto;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .header-btn {
+            color: #000;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .header-btn:hover { color: #d4a574; }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 40px 60px;
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid #d4a574;
+            border-radius: 50px;
+            color: #d4a574;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #d4a574;
+            color: #000;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        /* Product Card */
+        .product-card {
+            background: #f5f5f5;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 4px solid #d4a574;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Image Container */
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            background: #ffffff;
+            overflow: hidden;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-image.hidden {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Model Toggle Button */
+        .model-toggle-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 8px 16px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            color: #000;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .model-toggle-btn:hover {
+            background: #d4a574;
+            color: #fff;
+            border-color: #d4a574;
+        }
+
+        .model-toggle-btn::before {
+            content: '👤';
+            font-size: 12px;
+        }
+
+        /* Product Info */
+        .product-info {
+            padding: 20px;
+            background: #ffffff;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #d4a574;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            min-height: 42px;
+        }
+
+        /* Color Dots */
+        .color-dots {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .color-dot:hover {
+            border-color: #d4a574;
+            transform: scale(1.1);
+        }
+
+        /* Add to Cart & Meta */
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 14px;
+            background: #d4a574;
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #c49563;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 165, 116, 0.3);
+        }
+
+        .product-meta {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .products-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 900px) {
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .products-grid { grid-template-columns: 1fr; }
+            header { padding: 15px 20px; }
+            .container { padding: 90px 20px 40px; }
+        }
+
+        /* AI Chatbot Styles */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #d4a574 0%, #c49563 100%);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 165, 116, 0.4);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(212, 165, 116, 0.6);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 400px;
+            height: 600px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            z-index: 9998;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid #d4a574;
+        }
+
+        .chat-window.active {
+            display: flex;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #d4a574 0%, #c49563 100%);
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .chat-close {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f8f8;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .message.bot .message-content {
+            background: #fff;
+            color: #333;
+            border: 1px solid #e0e0e0;
+        }
+
+        .message.user .message-content {
+            background: #d4a574;
+            color: #fff;
+        }
+
+        .chat-input-container {
+            padding: 15px;
+            background: #fff;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: #d4a574;
+        }
+
+        .chat-send {
+            background: #d4a574;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .chat-send:hover {
+            background: #c49563;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 12px 16px;
+            background: #fff;
+            border-radius: 15px;
+            width: fit-content;
+            border: 1px solid #e0e0e0;
+        }
+
+        .typing-indicator.active {
+            display: block;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #d4a574;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .chat-window {
+                width: calc(100% - 40px);
+                height: calc(100% - 140px);
+                right: 20px;
+                bottom: 100px;
+            }
+
+            .chat-button {
+                right: 20px;
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="BTCC2.png" alt="BT Logo" class="logo-header">
+        <div class="header-right">
+            <button class="header-btn">SEARCH</button>
+            <button class="header-btn" onclick="toggleChat()">CHAT</button>
+            <a href="bearded-threads-checkout.html" class="header-btn">CART</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <a href="bearded-threads-v2-with-cart.html#shop" class="filter-btn">ALL</a>
+            <a href="bearded-threads-v2-with-cart.html#shop" class="filter-btn">HOODIES</a>
+            <a href="bearded-threads-tshirts.html" class="filter-btn">T-SHIRTS</a>
+            <a href="bearded-threads-accessories.html" class="filter-btn active">ACCESSORIES</a>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid">
+            <!-- Product 1: Black Beanie -->
+            <div class="product-card">
+                <div class="product-image-container">
+                    <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
+                    <img src="black-beanie-product.png" alt="Black Beanie" class="product-image active" data-type="product">
+                    <img src="black-beanie-model1.png" alt="Model 1" class="product-image hidden" data-type="model">
+                    <img src="black-beanie-model2.png" alt="Model 2" class="product-image hidden" data-type="model">
+                    <img src="black-beanie-model3.png" alt="Model 3" class="product-image hidden" data-type="model">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Black Beanie</h3>
+                    <p class="product-price">$25</p>
+                    <p class="product-description">Classic black beanie with embroidered BT logo.</p>
+                    <div class="color-dots">
+                        <div class="color-dot" style="background-color: #000000;"></div>
+                        <div class="color-dot" style="background-color: #9e9e9e;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Black Beanie', 25, 'black', 'black-beanie-product.png')">ADD TO CART</button>
+                    <p class="product-meta">One Size</p>
+                </div>
+            </div>
+
+            <!-- Product 2: Grey Beanie -->
+            <div class="product-card">
+                <div class="product-image-container">
+                    <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
+                    <img src="grey-beanie-product.png" alt="Grey Beanie" class="product-image active" data-type="product">
+                    <img src="grey-beanie-model1.png" alt="Model 1" class="product-image hidden" data-type="model">
+                    <img src="grey-beanie-model2.png" alt="Model 2" class="product-image hidden" data-type="model">
+                    <img src="grey-beanie-model3.png" alt="Model 3" class="product-image hidden" data-type="model">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Grey Beanie</h3>
+                    <p class="product-price">$25</p>
+                    <p class="product-description">Heather grey beanie with signature patch.</p>
+                    <div class="color-dots">
+                        <div class="color-dot" style="background-color: #9e9e9e;"></div>
+                        <div class="color-dot" style="background-color: #000000;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Grey Beanie', 25, 'grey', 'grey-beanie-product.png')">ADD TO CART</button>
+                    <p class="product-meta">One Size</p>
+                </div>
+            </div>
+
+            <!-- Product 3: Tan Beanie -->
+            <div class="product-card">
+                <div class="product-image-container">
+                    <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
+                    <img src="tan-beanie-product.png" alt="Tan Beanie" class="product-image active" data-type="product">
+                    <img src="tan-beanie-model1.png" alt="Model 1" class="product-image hidden" data-type="model">
+                    <img src="tan-beanie-model2.png" alt="Model 2" class="product-image hidden" data-type="model">
+                    <img src="tan-beanie-model3.png" alt="Model 3" class="product-image hidden" data-type="model">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Tan Beanie</h3>
+                    <p class="product-price">$25</p>
+                    <p class="product-description">Warm tan beanie with BTCC embroidery.</p>
+                    <div class="color-dots">
+                        <div class="color-dot" style="background-color: #d4a574;"></div>
+                        <div class="color-dot" style="background-color: #000000;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Tan Beanie', 25, 'tan', 'tan-beanie-product.png')">ADD TO CART</button>
+                    <p class="product-meta">One Size</p>
+                </div>
+            </div>
+
+            <!-- Product 4: Black Snapback -->
+            <div class="product-card">
+                <div class="product-image-container">
+                    <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
+                    <img src="black-snapback-product.png" alt="Black Snapback" class="product-image active" data-type="product">
+                    <img src="black-snapback-model1.png" alt="Model 1" class="product-image hidden" data-type="model">
+                    <img src="black-snapback-model2.png" alt="Model 2" class="product-image hidden" data-type="model">
+                    <img src="black-snapback-model3.png" alt="Model 3" class="product-image hidden" data-type="model">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Black Snapback</h3>
+                    <p class="product-price">$35</p>
+                    <p class="product-description">Premium snapback with gold thread logo.</p>
+                    <div class="color-dots">
+                        <div class="color-dot" style="background-color: #000000;"></div>
+                        <div class="color-dot" style="background-color: #1a237e;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Black Snapback', 35, 'black', 'black-snapback-product.png')">ADD TO CART</button>
+                    <p class="product-meta">Adjustable</p>
+                </div>
+            </div>
+
+            <!-- Product 5: Navy Dad Hat -->
+            <div class="product-card">
+                <div class="product-image-container">
+                    <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
+                    <img src="navy-dadhat-product.png" alt="Navy Dad Hat" class="product-image active" data-type="product">
+                    <img src="navy-dadhat-model1.png" alt="Model 1" class="product-image hidden" data-type="model">
+                    <img src="navy-dadhat-model2.png" alt="Model 2" class="product-image hidden" data-type="model">
+                    <img src="navy-dadhat-model3.png" alt="Model 3" class="product-image hidden" data-type="model">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Navy Dad Hat</h3>
+                    <p class="product-price">$30</p>
+                    <p class="product-description">Relaxed navy dad hat with curved brim.</p>
+                    <div class="color-dots">
+                        <div class="color-dot" style="background-color: #1a237e;"></div>
+                        <div class="color-dot" style="background-color: #000000;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Navy Dad Hat', 30, 'navy', 'navy-dadhat-product.png')">ADD TO CART</button>
+                    <p class="product-meta">Adjustable</p>
+                </div>
+            </div>
+
+            <!-- Product 6: Olive Trucker Hat -->
+            <div class="product-card">
+                <div class="product-image-container">
+                    <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
+                    <img src="olive-trucker-product.png" alt="Olive Trucker Hat" class="product-image active" data-type="product">
+                    <img src="olive-trucker-model1.png" alt="Model 1" class="product-image hidden" data-type="model">
+                    <img src="olive-trucker-model2.png" alt="Model 2" class="product-image hidden" data-type="model">
+                    <img src="olive-trucker-model3.png" alt="Model 3" class="product-image hidden" data-type="model">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Olive Trucker Hat</h3>
+                    <p class="product-price">$30</p>
+                    <p class="product-description">Classic trucker with mesh back panels.</p>
+                    <div class="color-dots">
+                        <div class="color-dot" style="background-color: #556b2f;"></div>
+                        <div class="color-dot" style="background-color: #000000;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Olive Trucker Hat', 30, 'olive', 'olive-trucker-product.png')">ADD TO CART</button>
+                    <p class="product-meta">Adjustable</p>
+                </div>
+            </div>
+
+            <!-- Product 7: Black Tote Bag -->
+            <div class="product-card">
+                <div class="product-image-container">
+                    <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
+                    <img src="black-tote-product.png" alt="Black Tote Bag" class="product-image active" data-type="product">
+                    <img src="black-tote-model1.png" alt="Model 1" class="product-image hidden" data-type="model">
+                    <img src="black-tote-model2.png" alt="Model 2" class="product-image hidden" data-type="model">
+                    <img src="black-tote-model3.png" alt="Model 3" class="product-image hidden" data-type="model">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Black Tote Bag</h3>
+                    <p class="product-price">$40</p>
+                    <p class="product-description">Heavy-duty canvas tote with leather straps.</p>
+                    <div class="color-dots">
+                        <div class="color-dot" style="background-color: #000000;"></div>
+                        <div class="color-dot" style="background-color: #d4a574;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Black Tote Bag', 40, 'black', 'black-tote-product.png')">ADD TO CART</button>
+                    <p class="product-meta">Large</p>
+                </div>
+            </div>
+
+            <!-- Product 8: Tan Backpack -->
+            <div class="product-card">
+                <div class="product-image-container">
+                    <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
+                    <img src="tan-backpack-product.png" alt="Tan Backpack" class="product-image active" data-type="product">
+                    <img src="tan-backpack-model1.png" alt="Model 1" class="product-image hidden" data-type="model">
+                    <img src="tan-backpack-model2.png" alt="Model 2" class="product-image hidden" data-type="model">
+                    <img src="tan-backpack-model3.png" alt="Model 3" class="product-image hidden" data-type="model">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Tan Backpack</h3>
+                    <p class="product-price">$75</p>
+                    <p class="product-description">Premium canvas backpack with laptop sleeve.</p>
+                    <div class="color-dots">
+                        <div class="color-dot" style="background-color: #d4a574;"></div>
+                        <div class="color-dot" style="background-color: #000000;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Tan Backpack', 75, 'tan', 'tan-backpack-product.png')">ADD TO CART</button>
+                    <p class="product-meta">25L</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // Model toggle intervals storage
+        const modelIntervals = {};
+
+        // Toggle between product image and model auto-loop
+        function toggleModel(button) {
+            const container = button.closest('.product-image-container');
+            const productImg = container.querySelector('[data-type="product"]');
+            const modelImgs = container.querySelectorAll('[data-type="model"]');
+            
+            // Check if we're currently showing models (looping)
+            const isShowingModels = button.textContent === 'See Product';
+            
+            if (isShowingModels) {
+                // Stop loop and show product
+                clearInterval(modelIntervals[container.id]);
+                delete modelIntervals[container.id];
+                
+                // Hide all model images
+                modelImgs.forEach(img => {
+                    img.classList.add('hidden');
+                    img.classList.remove('active');
+                });
+                
+                // Show product image
+                productImg.classList.remove('hidden');
+                productImg.classList.add('active');
+                
+                button.textContent = 'See On Model';
+            } else {
+                // Start auto-loop through model images
+                let currentModelIndex = 0;
+                
+                // Hide product image
+                productImg.classList.add('hidden');
+                productImg.classList.remove('active');
+                
+                // Show first model image
+                modelImgs[0].classList.remove('hidden');
+                modelImgs[0].classList.add('active');
+                
+                // Create unique ID for this container if it doesn't have one
+                if (!container.id) {
+                    container.id = 'container-' + Date.now() + '-' + Math.random();
+                }
+                
+                // Auto-loop through model images every 2 seconds
+                modelIntervals[container.id] = setInterval(() => {
+                    // Hide current model image
+                    modelImgs[currentModelIndex].classList.add('hidden');
+                    modelImgs[currentModelIndex].classList.remove('active');
+                    
+                    // Move to next model image
+                    currentModelIndex = (currentModelIndex + 1) % modelImgs.length;
+                    
+                    // Show next model image
+                    modelImgs[currentModelIndex].classList.remove('hidden');
+                    modelImgs[currentModelIndex].classList.add('active');
+                }, 2000);
+                
+                button.textContent = 'See Product';
+            }
+        }
+
+        // Add to Cart Function
+        function addToCart(productName, price, color, image) {
+            let cart = JSON.parse(localStorage.getItem('beardedThreadsCart')) || [];
+            
+            // Check if product already exists in cart
+            const existingItem = cart.find(item => 
+                item.name === productName && item.color === color
+            );
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: price,
+                    color: color,
+                    image: image,
+                    size: 'One Size',
+                    quantity: 1
+                });
+            }
+
+            localStorage.setItem('beardedThreadsCart', JSON.stringify(cart));
+            showAddedToCartNotification(productName);
+        }
+
+        // Show notification when item is added
+        function showAddedToCartNotification(productName) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 40px;
+                background: #d4a574;
+                color: #fff;
+                padding: 20px 30px;
+                border-radius: 50px;
+                font-weight: 700;
+                letter-spacing: 1px;
+                z-index: 10000;
+                box-shadow: 0 10px 30px rgba(212, 165, 116, 0.4);
+            `;
+            notification.textContent = `✓ ${productName} added to cart!`;
+            document.body.appendChild(notification);
+
+            // Animate in
+            gsap.from(notification, {
+                x: 100,
+                opacity: 0,
+                duration: 0.5,
+                ease: 'back.out(2)'
+            });
+
+            // Animate out and remove
+            setTimeout(() => {
+                gsap.to(notification, {
+                    x: 100,
+                    opacity: 0,
+                    duration: 0.4,
+                    ease: 'power2.in',
+                    onComplete: () => notification.remove()
+                });
+            }, 2500);
+        }
+
+        // GSAP Scroll Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray('.product-card').forEach((card) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 85%',
+                    end: 'top 60%',
+                    scrub: 1,
+                },
+                y: 60,
+                opacity: 0,
+            });
+        });
+
+        // Clean up intervals when page unloads
+        window.addEventListener('beforeunload', () => {
+            Object.values(modelIntervals).forEach(interval => clearInterval(interval));
+        });
+    </script>
+
+    <!-- AI Chatbot -->
+    <button class="chat-button" onclick="toggleChat()">💬</button>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h3>Bearded Threads Assistant</h3>
+            <button class="chat-close" onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-content">
+                    👋 Hi! I'm your Bearded Threads assistant. I can help you with:
+                    <br><br>
+                    • Product information & sizing
+                    <br>• Shipping & returns
+                    <br>• Order tracking
+                    <br>• Material & care instructions
+                    <br><br>
+                    What can I help you with today?
+                </div>
+            </div>
+        </div>
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="handleChatKeyPress(event)">
+            <button class="chat-send" onclick="sendChatMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.classList.toggle('active');
+            
+            if (chatWindow.classList.contains('active')) {
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function addChatMessage(content, isUser) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.innerHTML = content;
+            
+            messageDiv.appendChild(contentDiv);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            addChatMessage(message, true);
+            input.value = '';
+            
+            const typingIndicator = document.getElementById('typingIndicator');
+            typingIndicator.classList.add('active');
+            
+            setTimeout(() => {
+                typingIndicator.classList.remove('active');
+                const response = getChatResponse(message);
+                addChatMessage(response, false);
+            }, 1000 + Math.random() * 1000);
+        }
+
+        function getChatResponse(message) {
+            const msg = message.toLowerCase();
+            
+            if (msg.includes('ship') || msg.includes('deliver') || msg.includes('how long')) {
+                return '📦 We offer free shipping on orders over $100! Orders typically ship within 2-3 business days and arrive within 5-7 business days via standard shipping. Need it faster? Express shipping is available at checkout.';
+            }
+            
+            if (msg.includes('return') || msg.includes('exchange') || msg.includes('refund')) {
+                return '🔄 We offer a 30-day return policy! If you\'re not completely satisfied, you can return unworn items with tags attached for a full refund. Exchanges are always free. Just email support@beardedthreads.com to start the process.';
+            }
+            
+            if (msg.includes('size') || msg.includes('fit') || msg.includes('large') || msg.includes('small')) {
+                return '📏 Our accessories come in standard sizes. Hats are adjustable for the perfect fit. If you have specific sizing questions, feel free to ask!';
+            }
+            
+            if (msg.includes('material') || msg.includes('wash') || msg.includes('care') || msg.includes('fabric') || msg.includes('cotton')) {
+                return '🧵 Our accessories are made from quality materials designed to last. Beanies and hats can be hand washed or spot cleaned. Bags are durable and easy to clean with a damp cloth.';
+            }
+            
+            if (msg.includes('price') || msg.includes('cost') || msg.includes('how much') || msg.includes('$')) {
+                return '💰 Our pricing:<br>• Hoodies: $80<br>• T-Shirts: $45<br>• Beanies: $25<br>• Hats: $30-35<br>• Bags: $40-75<br><br>Free shipping on orders over $100!';
+            }
+            
+            if (msg.includes('color') || msg.includes('available')) {
+                return '🎨 Our accessories come in various colors! Beanies are available in black, grey, and tan. Hats come in black, navy, and olive. Bags are available in black and tan. Check out our product pages to see all options!';
+            }
+            
+            if (msg.includes('sustainable') || msg.includes('eco') || msg.includes('environment') || msg.includes('tree')) {
+                return '🌍 Sustainability is core to our mission! We use organic cotton and recycled polyester, offer carbon-neutral shipping, and plant a tree with every purchase. All materials are ethically sourced and OEKO-TEX certified.';
+            }
+            
+            if (msg.includes('track') || msg.includes('order') || msg.includes('where')) {
+                return '📍 To track your order, please check your email for shipping confirmation with tracking details. If you need help with a specific order, please email support@beardedthreads.com with your order number.';
+            }
+            
+            if (msg.includes('stock') || msg.includes('available') || msg.includes('sold out')) {
+                return '✅ Most items are currently in stock! If you\'re looking for a specific item, check the product page for real-time availability. Items sell out quickly, so grab yours while you can!';
+            }
+            
+            if (msg.includes('hello') || msg.includes('hi') || msg.includes('hey')) {
+                return '👋 Hello! Welcome to Bearded Threads. How can I help you today? Feel free to ask about our products, shipping, sizing, or anything else!';
+            }
+            
+            if (msg.includes('thank') || msg.includes('thanks')) {
+                return '😊 You\'re very welcome! Is there anything else I can help you with today?';
+            }
+            
+            return 'I\'d be happy to help! You can ask me about:<br><br>• Product info & pricing<br>• Sizing & fit<br>• Shipping & delivery<br>• Returns & exchanges<br>• Materials & care<br>• Sustainability<br><br>What would you like to know?';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bearded Threads - Comfort, One Tap Away</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Amiko:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+        }
+
+        .logo-header {
+            height: 60px;
+            width: auto;
+            cursor: pointer;
+        }
+
+        nav {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: #d4a574;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .header-icons a {
+            color: #333;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .header-icons a:hover {
+            color: #d4a574;
+        }
+
+        /* Splash Screen */
+        .splash-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .splash-bg-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background-image: url('/mnt/user-data/uploads/ChatGPT_Image_Oct_13__2025__07_54_20_PM.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.15;
+            filter: blur(5px);
+            scale: 1.2;
+        }
+
+        .splash-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .splash-logo {
+            width: 90vw;
+            max-width: 800px;
+            height: auto;
+            opacity: 0;
+        }
+
+        .scroll-indicator-splash {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            z-index: 3;
+        }
+
+        .scroll-indicator-splash span {
+            display: block;
+            width: 2px;
+            height: 60px;
+            background: #d4a574;
+            margin: 0 auto 10px;
+            animation: scrollDown 2s infinite;
+        }
+
+        .scroll-indicator-splash p {
+            color: #d4a574;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        @keyframes scrollDown {
+            0%, 100% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(10px); opacity: 0.5; }
+        }
+
+        /* Hero Section - Video Background */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 80px 40px 40px;
+            overflow: hidden;
+        }
+
+        /* Video Background */
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* Dark Overlay */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+            z-index: 2;
+        }
+
+        .hero-greeting {
+            position: absolute;
+            top: 100px;
+            left: 50px;
+            color: #fff;
+            opacity: 0;
+            z-index: 3;
+        }
+
+        .hero-greeting h3 {
+            font-size: 16px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .hero-greeting h2 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 3;
+            opacity: 0;
+        }
+
+        .hero-logo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+        }
+
+        .hero-tagline {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            line-height: 1.8;
+            color: #fff;
+            margin-bottom: 50px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 18px 50px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-primary {
+            background: #d4a574;
+            color: #fff;
+        }
+
+        .cta-primary:hover {
+            background: #c49563;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 165, 116, 0.4);
+        }
+
+        .cta-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        .cta-secondary:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Featured Banner */
+        .featured-banner {
+            padding: 80px 40px;
+            background: linear-gradient(135deg, #6d7a60 0%, #4a5240 100%);
+            text-align: center;
+            color: #fff;
+        }
+
+        .featured-banner h2 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+
+        .featured-banner p {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+        }
+
+        /* Shop Section */
+        .shop-section {
+            padding: 100px 40px;
+            background: #000000;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid #d4a574;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            color: #d4a574;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #d4a574;
+            border-color: #d4a574;
+            color: #000;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            border: 4px solid #d4a574;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image-wrapper {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e8e8e8 0%, #d3d3d3 100%);
+        }
+
+        .product-carousel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .carousel-slide.inactive {
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 100px;
+            font-weight: 700;
+            color: rgba(0, 0, 0, 0.1);
+            font-style: italic;
+        }
+
+        .model-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #d4a574 0%, #c49563 100%);
+            font-size: 24px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 40px;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #d4a574;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .quick-view {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: 12px 30px;
+            background: #fff;
+            color: #333;
+            border: none;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .product-card:hover .quick-view {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .quick-view:hover {
+            background: #d4a574;
+            color: #fff;
+        }
+
+        .view-toggle {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border: none;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-toggle:hover {
+            background: #d4a574;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .view-toggle.active {
+            background: #d4a574;
+            color: #fff;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: #d4a574;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 22px;
+            color: #d4a574;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            min-height: 45px;
+        }
+
+        .product-meta {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .product-colors {
+            display: flex;
+            gap: 8px;
+        }
+
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .color-dot:hover {
+            transform: scale(1.2);
+        }
+
+        .product-sizes {
+            font-size: 12px;
+            color: #999;
+            letter-spacing: 1px;
+            text-align: right;
+        }
+
+        .add-to-cart-btn {
+            padding: 10px 20px;
+            background: #d4a574;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            white-space: nowrap;
+            text-align: center;
+            justify-self: center;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #c49563;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 165, 116, 0.4);
+        }
+
+        /* Feature Cards Section */
+        .features-section {
+            padding: 120px 40px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.6; }
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 60px 30px;
+            border-radius: 30px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 2px solid rgba(212, 165, 116, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            border-color: #d4a574;
+            box-shadow: 0 25px 60px rgba(212, 165, 116, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 20px rgba(212, 165, 116, 0.6));
+            transition: all 0.5s ease;
+            display: inline-block;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 30px rgba(212, 165, 116, 1));
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #d4a574;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 1200px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            padding: 0;
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 49.6875%; /* Aspect ratio 2560:1272 = 49.6875% */
+            overflow: hidden;
+            background: #000;
+        }
+
+        .newsletter-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            z-index: 1;
+        }
+
+
+        /* About Section */
+        .about-section {
+            padding: 100px 40px;
+            background: #fff;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-content h2 {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .about-content p {
+            font-size: 18px;
+            line-height: 2;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 40px 40px;
+            background: #0a0a0a;
+            color: #fff;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section a {
+            color: #999;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #d4a574;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #222;
+        }
+
+        .footer-bottom p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: #666;
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #d4a574;
+        }
+
+        /* Mobile Bottom Nav (from Figma) */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .mobile-nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-item:hover, .mobile-nav-item.active {
+            color: #d4a574;
+        }
+
+        .mobile-nav-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-tagline {
+                font-size: 36px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .splash-logo {
+                width: 85vw;
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .splash-logo {
+                width: 90vw;
+                max-width: 500px;
+            }
+
+            .hero-logo {
+                width: 150px;
+                height: 150px;
+            }
+
+            .hero-tagline {
+                font-size: 28px;
+                letter-spacing: 3px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .cta-button {
+                padding: 15px 35px;
+                font-size: 14px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mobile-bottom-nav {
+                display: block;
+            }
+
+            .shop-section {
+                padding-bottom: 100px;
+            }
+        }
+
+        /* AI Chatbot Styles */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #d4a574 0%, #c49563 100%);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 165, 116, 0.4);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(212, 165, 116, 0.6);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 400px;
+            height: 600px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            z-index: 9998;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid #d4a574;
+        }
+
+        .chat-window.active {
+            display: flex;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #d4a574 0%, #c49563 100%);
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .chat-close {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f8f8;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .message.bot .message-content {
+            background: #fff;
+            color: #333;
+            border: 1px solid #e0e0e0;
+        }
+
+        .message.user .message-content {
+            background: #d4a574;
+            color: #fff;
+        }
+
+        .chat-input-container {
+            padding: 15px;
+            background: #fff;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: #d4a574;
+        }
+
+        .chat-send {
+            background: #d4a574;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .chat-send:hover {
+            background: #c49563;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 12px 16px;
+            background: #fff;
+            border-radius: 15px;
+            width: fit-content;
+            border: 1px solid #e0e0e0;
+        }
+
+        .typing-indicator.active {
+            display: block;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #d4a574;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .chat-window {
+                width: calc(100% - 40px);
+                height: calc(100% - 140px);
+                right: 20px;
+                bottom: 100px;
+            }
+
+            .chat-button {
+                right: 20px;
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <img src="BTCC2.png" alt="BT Logo" class="logo-header" onclick="scrollToSection('shop')">
+        <nav>
+            <a href="#shop" onclick="scrollToSection('shop')">SHOP</a>
+            <a href="#heavy">HEAVY COLLECTION</a>
+            <a href="#about" onclick="scrollToSection('about')">ABOUT</a>
+        </nav>
+        <div class="header-icons">
+            <a href="#search">SEARCH</a>
+            <a href="#" onclick="toggleChat(); return false;">CHAT</a>
+            <a href="bearded-threads-checkout.html">CART</a>
+        </div>
+    </header>
+
+    <!-- Splash Screen -->
+    <section class="splash-section" id="splash">
+        <div class="splash-bg-logo"></div>
+        <div class="splash-content">
+            <img src="BTCC1.png" alt="BTCC Logo" class="splash-logo" id="splash-logo">
+        </div>
+        <div class="scroll-indicator-splash">
+            <span></span>
+            <p>SCROLL</p>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="BTCCintrovideo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <div class="hero-greeting">
+            <h3>Monday, November 17th</h3>
+            <h2>Good Evening, Brandon!</h2>
+        </div>
+        
+        <div class="hero-content">
+            <img src="/mnt/user-data/uploads/BT_swoop_transparent_stronger.png" alt="BT Logo" class="hero-logo">
+            <h1 class="hero-tagline">BEARDED THREADS</h1>
+            <p class="hero-subtitle">Weighted Hoodies. Easy shopping.<br>Comfort, one tap away</p>
+            
+            <div class="hero-cta-buttons">
+                <a href="#new" class="cta-button cta-primary">Shop New</a>
+                <a href="#heavy" class="cta-button cta-secondary">Shop Heavy</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Banner -->
+    <section class="featured-banner">
+        <h2>HEAVYWEIGHT COMFORT</h2>
+        <p>Experience the calming power of weighted hoodies designed for everyday wear</p>
+        <a href="#shop" class="cta-button cta-primary">Explore Collection</a>
+    </section>
+
+    <!-- Shop Section -->
+    <section class="shop-section" id="shop">
+        <div class="section-header">
+            <h2 class="section-title">POPULAR ITEMS</h2>
+            <p class="section-subtitle">Handpicked favorites from our collection</p>
+        </div>
+
+        <div class="category-filter">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Hoodies</button>
+            <a href="bearded-threads-tshirts.html" class="filter-btn">T-Shirts</a>
+            <a href="bearded-threads-accessories.html" class="filter-btn">Accessories</a>
+        </div>
+
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT ONLY IMAGE - REPLACE THIS PATH WITH YOUR PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="BTCChoodie.png" alt="Classic Black Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 - CHANGE IMAGE PATH BELOW -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCCmodel.png" alt="Model wearing Classic Black Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCCmodel2.png" alt="Model wearing Classic Black Hoodie back view" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 - NEW IMAGE ADDED -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCCmodel4.png" alt="Model wearing Classic Black Hoodie angle 3" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    <span class="product-badge">New</span>
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Classic Black Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Heavy-weight cotton blend, relaxed fit for ultimate comfort.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #000;"></div>
+                            <div class="color-dot" style="background: #3a3a3a;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=classic-black&price=80&color=black" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="ForestGreenProduct.png" alt="Forest Green Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3green.png" alt="Model wearing Forest Green Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4green.png" alt="Model wearing Forest Green Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5green.png" alt="Model wearing Forest Green Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    <span class="product-badge">Bestseller</span>
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Forest Green Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Premium cotton blend with signature BT logo.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #4a5240;"></div>
+                            <div class="color-dot" style="background: #6d7a60;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=forest-green&price=80&color=forest-green" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="NavyBlueProduct.png" alt="Navy Blue Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3navy.png" alt="Model wearing Navy Blue Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4navy.png" alt="Model wearing Navy Blue Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5navy.png" alt="Model wearing Navy Blue Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Navy Blue Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Deep blue heavyweight fabric with embroidered logo.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #1e2a3a;"></div>
+                            <div class="color-dot" style="background: #2c3e50;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=navy-blue&price=80&color=navy-blue" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="TanBeigeProduct.png" alt="Tan Beige Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3tan.png" alt="Model wearing Tan Beige Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4tan.png" alt="Model wearing Tan Beige Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5tan.png" alt="Model wearing Tan Beige Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    <span class="product-badge">Limited</span>
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Tan Beige Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Soft neutral tones with premium stitching.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #d4a574;"></div>
+                            <div class="color-dot" style="background: #c9a581;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=tan-beige&price=80&color=tan-beige" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="LightGreyProduct.png" alt="Light Grey Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3lightgrey.png" alt="Model wearing Light Grey Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4lightgrey.png" alt="Model wearing Light Grey Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5lightgrey.png" alt="Model wearing Light Grey Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Light Grey Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Minimalist design with maximum comfort.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #b8b8b8;"></div>
+                            <div class="color-dot" style="background: #d3d3d3;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=light-grey&price=80&color=light-grey" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="DarkGreyProduct.png" alt="Dark Grey Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3darkgrey.png" alt="Model wearing Dark Grey Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4darkgrey.png" alt="Model wearing Dark Grey Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5darkgrey.png" alt="Model wearing Dark Grey Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Dark Grey Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Versatile everyday essential with relaxed fit.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #4a4a4a;"></div>
+                            <div class="color-dot" style="background: #5a5a5a;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=dark-grey&price=80&color=dark-grey" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="OliveGreenProduct.png" alt="Olive Green Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3olive.png" alt="Model wearing Olive Green Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4olive.png" alt="Model wearing Olive Green Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5olive.png" alt="Model wearing Olive Green Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    <span class="product-badge">New</span>
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Olive Green Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Military-inspired comfort with urban style.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #5d6e52;"></div>
+                            <div class="color-dot" style="background: #6d7a60;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=olive-green&price=80&color=olive-green" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="CharcoalProduct.png" alt="Charcoal Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3charcoal.png" alt="Model wearing Charcoal Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4charcoal.png" alt="Model wearing Charcoal Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5charcoal.png" alt="Model wearing Charcoal Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Charcoal Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Deep charcoal with subtle texture detail.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #2a2a2a;"></div>
+                            <div class="color-dot" style="background: #1a1a1a;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=charcoal&price=80&color=charcoal" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 9 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="SlateBlueProduct.png" alt="Slate Blue Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3slateblue.png" alt="Model wearing Slate Blue Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4slateblue.png" alt="Model wearing Slate Blue Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5slateblue.png" alt="Model wearing Slate Blue Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Slate Blue Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Cool tones meet warm comfort.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #5f7a8a;"></div>
+                            <div class="color-dot" style="background: #708a9a;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=slate-blue&price=80&color=slate-blue" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 10 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="SandBeigeProduct.png" alt="Sand Beige Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3sand.png" alt="Model wearing Sand Beige Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4sand.png" alt="Model wearing Sand Beige Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5sand.png" alt="Model wearing Sand Beige Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    <span class="product-badge">Bestseller</span>
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Sand Beige Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Desert-inspired neutrals with organic cotton.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #c9a581;"></div>
+                            <div class="color-dot" style="background: #d4b896;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=sand-beige&price=80&color=sand-beige" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 11 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="MidnightBlackProduct.png" alt="Midnight Black Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3midnightblack.png" alt="Model wearing Midnight Black Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4midnightblack.png" alt="Model wearing Midnight Black Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5midnightblack.png" alt="Model wearing Midnight Black Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Midnight Black Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Classic black with premium finish.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #0a0a0a;"></div>
+                            <div class="color-dot" style="background: #000;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=midnight-black&price=80&color=midnight-black" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 12 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <button class="view-toggle" onclick="toggleView(this)">
+                        <span>👕</span> See on Model
+                    </button>
+                    <div class="product-carousel">
+                        <!-- SLIDE 1: PRODUCT IMAGE -->
+                        <div class="carousel-slide active">
+                            <img src="StormGreyProduct.png" alt="Storm Grey Hoodie Product" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 2: MODEL IMAGE 1 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC3stormgrey.png" alt="Model wearing Storm Grey Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 3: MODEL IMAGE 2 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC4stormgrey.png" alt="Model wearing Storm Grey Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <!-- SLIDE 4: MODEL IMAGE 3 -->
+                        <div class="carousel-slide inactive">
+                            <img src="BTCC5stormgrey.png" alt="Model wearing Storm Grey Hoodie" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="carousel-dot active" onclick="showSlide(this, 0)"></span>
+                        <span class="carousel-dot" onclick="showSlide(this, 1)"></span>
+                    </div>
+                    
+                    <button class="quick-view">Quick View</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Storm Grey Hoodie</h3>
+                    <p class="product-price">$80</p>
+                    <p class="product-description">Weather-inspired tones, cloud-like comfort.</p>
+                    <div class="product-meta">
+                        <div class="product-colors">
+                            <div class="color-dot" style="background: #6a6a6a;"></div>
+                            <div class="color-dot" style="background: #7a7a7a;"></div>
+                        </div>
+                        <a href="bearded-threads-checkout.html?product=storm-grey&price=80&color=storm-grey" class="add-to-cart-btn">Add to Cart</a>
+                        <span class="product-sizes">S - 3XL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="section-header">
+            <h2 class="section-title" style="color: #d4a574;">WHAT MAKES US DIFFERENT</h2>
+            <p class="section-subtitle" style="color: #ccc;">Quality, comfort, and sustainability in every stitch</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3>Premium Quality</h3>
+                <p>80% organic cotton, 20% recycled polyester for ultimate durability and comfort. OEKO-TEX certified.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧘</div>
+                <h3>Weighted Comfort</h3>
+                <p>Gentle weight distribution provides calming pressure therapy designed with anxiety relief in mind.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Sustainable</h3>
+                <p>Ethically sourced materials and carbon-neutral shipping. Every purchase plants a tree.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Timeless Design</h3>
+                <p>Minimalist aesthetics that never go out of style. Our BT logo is embroidered, not screen printed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <video class="newsletter-video" autoplay muted loop playsinline>
+            <source src="BTCC_flash.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-content">
+            <h2>ABOUT BEARDED THREADS</h2>
+            <p>Bearded Threads was born from a simple idea: clothing should be more than just fabric. It should be a source of comfort, confidence, and calm in our hectic world.</p>
+            <p>Our heavyweight hoodies are designed with intention. Every stitch, every fiber, every detail serves a purpose — to help you feel grounded, comfortable, and ready to take on whatever comes your way.</p>
+            <p>We believe in quality over quantity, sustainability over speed, and comfort that lasts. Join the Bearded Threads community and experience the difference.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SHOP</h3>
+                <ul>
+                    <li><a href="#">Hoodies</a></li>
+                    <li><a href="bearded-threads-tshirts.html">T-Shirts</a></li>
+                    <li><a href="bearded-threads-accessories.html">Accessories</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>SUPPORT</h3>
+                <ul>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>COMPANY</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>NEWSLETTER</h3>
+                <p style="color: #999; font-size: 14px; margin-bottom: 15px;">Subscribe for updates</p>
+                <input type="email" placeholder="Enter your email" style="width: 100%; padding: 12px; border: 1px solid #333; background: #1a1a1a; color: #fff; border-radius: 5px; margin-bottom: 10px;">
+                <button style="width: 100%; padding: 12px; background: #d4a574; color: #000; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">SUBSCRIBE</button>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Bearded Threads. All rights reserved.</p>
+            <p>Comfort, one tap away.</p>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <div class="mobile-nav-items">
+            <a href="#" class="mobile-nav-item active">
+                <span class="mobile-nav-icon">🏠</span>
+                Home
+            </a>
+            <a href="#search" class="mobile-nav-item">
+                <span class="mobile-nav-icon">🔍</span>
+                Search
+            </a>
+            <a href="#account" class="mobile-nav-item">
+                <span class="mobile-nav-icon">👤</span>
+                Account
+            </a>
+            <a href="#cart" class="mobile-nav-item">
+                <span class="mobile-nav-icon">🛒</span>
+                Cart
+            </a>
+        </div>
+    </nav>
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // Register ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Splash Screen Animation
+        const splashTl = gsap.timeline();
+        
+        splashTl.to('#splash-logo', {
+            opacity: 1,
+            scale: 1,
+            duration: 2.5,
+            ease: 'power2.inOut'
+        })
+        .to('.scroll-indicator-splash', {
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out'
+        }, '-=0.5');
+
+        // Hero greeting animation
+        gsap.from('.hero-greeting', {
+            scrollTrigger: {
+                trigger: '.hero-section',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            },
+            opacity: 0,
+            x: -50,
+            duration: 1,
+            ease: 'power2.out'
+        });
+
+        // Hero content animation
+        gsap.from('.hero-content', {
+            scrollTrigger: {
+                trigger: '.hero-section',
+                start: 'top 60%',
+                toggleActions: 'play none none reverse'
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1.5,
+            ease: 'power2.out'
+        });
+
+        // Header appears after leaving splash
+        gsap.to('#header', {
+            scrollTrigger: {
+                trigger: '.hero-section',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            },
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out'
+        });
+
+        // Product Cards Scroll Animation
+        // Check if jumping directly to shop section
+        const jumpingToShop = window.location.hash === '#shop';
+
+        // If jumping to shop, also show subtitle and filter buttons immediately
+        if (jumpingToShop) {
+            gsap.set('.shop-section .section-subtitle', { opacity: 1 });
+            gsap.set('.category-filter .filter-btn', { opacity: 1 });
+        }
+
+        // Product cards animation
+        gsap.utils.toArray('.product-card').forEach((card, i) => {
+            if (jumpingToShop) {
+                // Skip animation, show immediately
+                gsap.set(card, { opacity: 1, y: 0 });
+            } else {
+                // Normal scroll animation
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    opacity: 0,
+                    y: 60,
+                    duration: 0.8,
+                    delay: (i % 3) * 0.1,
+                    ease: 'power2.out'
+                });
+            }
+        });
+
+        // Feature cards animation
+        gsap.utils.toArray('.feature-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 0,
+                y: 40,
+                duration: 0.8,
+                delay: (i % 3) * 0.15,
+                ease: 'power2.out'
+            });
+        });
+
+        // Section titles animation
+        gsap.utils.toArray('.section-title').forEach(title => {
+            if (jumpingToShop && title.closest('.shop-section')) {
+                // Skip animation for shop section titles, show immediately
+                gsap.set(title, { opacity: 1, y: 0 });
+            } else {
+                gsap.from(title, {
+                    scrollTrigger: {
+                        trigger: title,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    opacity: 0,
+                    y: 30,
+                    duration: 1,
+                    ease: 'power2.out'
+                });
+            }
+        });
+
+        // Parallax effect on splash
+        gsap.to('.splash-section', {
+            scrollTrigger: {
+                trigger: '.splash-section',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            },
+            opacity: 0,
+            scale: 0.9
+        });
+
+        // Parallax effect on hero
+        gsap.to('.hero-section', {
+            scrollTrigger: {
+                trigger: '.hero-section',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            },
+            opacity: 0.6
+        });
+
+        // Smooth scroll function
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Category filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Mobile nav active state
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Carousel toggle functions
+        let carouselIntervals = {}; // Store interval IDs for each product card
+
+        function toggleView(button) {
+            const wrapper = button.closest('.product-image-wrapper');
+            const slides = wrapper.querySelectorAll('.carousel-slide');
+            const dots = wrapper.querySelectorAll('.carousel-dot');
+            const currentIndex = [...slides].findIndex(slide => slide.classList.contains('active'));
+            
+            // Get unique ID for this card
+            const cardId = wrapper.closest('.product-card').getAttribute('data-card-id') || 
+                          Math.random().toString(36).substr(2, 9);
+            wrapper.closest('.product-card').setAttribute('data-card-id', cardId);
+            
+            if (currentIndex === 0) {
+                // Switching TO model view - start at first model image
+                showSlideByIndex(wrapper, 1);
+                button.innerHTML = '<span>📦</span> See Product';
+                button.classList.add('active');
+                
+                // Start auto-loop between model images (all slides except first)
+                if (slides.length > 2) {
+                    carouselIntervals[cardId] = setInterval(() => {
+                        const currentActive = [...slides].findIndex(slide => slide.classList.contains('active'));
+                        // Loop through model images (slides 1 to n-1, then back to 1)
+                        if (currentActive === 0) {
+                            // Shouldn't happen, but safety check
+                            showSlideByIndex(wrapper, 1);
+                        } else if (currentActive === slides.length - 1) {
+                            // Last slide, go back to first model image (slide 1)
+                            showSlideByIndex(wrapper, 1);
+                        } else {
+                            // Go to next slide
+                            showSlideByIndex(wrapper, currentActive + 1);
+                        }
+                    }, 2000); // 2 second interval
+                }
+            } else {
+                // Switching BACK to product view - stop loop
+                clearInterval(carouselIntervals[cardId]);
+                delete carouselIntervals[cardId];
+                
+                showSlideByIndex(wrapper, 0);
+                button.innerHTML = '<span>👕</span> See on Model';
+                button.classList.remove('active');
+            }
+        }
+
+        function showSlideByIndex(wrapper, index) {
+            const slides = wrapper.querySelectorAll('.carousel-slide');
+            const dots = wrapper.querySelectorAll('.carousel-dot');
+            
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.add('active');
+                    slide.classList.remove('inactive');
+                } else {
+                    slide.classList.remove('active');
+                    slide.classList.add('inactive');
+                }
+            });
+            
+            // Update dots - only show active for product (0) or model (1+)
+            dots.forEach(d => d.classList.remove('active'));
+            if (index === 0) {
+                dots[0].classList.add('active');
+            } else {
+                dots[1].classList.add('active');
+            }
+        }
+
+        function showSlide(dot, index) {
+            const wrapper = dot.closest('.product-image-wrapper');
+            const button = wrapper.querySelector('.view-toggle');
+            const cardId = wrapper.closest('.product-card').getAttribute('data-card-id');
+            
+            // Stop any running loop
+            if (carouselIntervals[cardId]) {
+                clearInterval(carouselIntervals[cardId]);
+                delete carouselIntervals[cardId];
+            }
+            
+            showSlideByIndex(wrapper, index);
+            
+            // Update button text
+            if (index === 0) {
+                button.innerHTML = '<span>👕</span> See on Model';
+                button.classList.remove('active');
+            } else {
+                button.innerHTML = '<span>📦</span> See Product';
+                button.classList.add('active');
+                
+                // If clicking on model dot, start the loop
+                const slides = wrapper.querySelectorAll('.carousel-slide');
+                if (slides.length > 2) {
+                    carouselIntervals[cardId] = setInterval(() => {
+                        const currentActive = [...slides].findIndex(slide => slide.classList.contains('active'));
+                        if (currentActive === 0) {
+                            showSlideByIndex(wrapper, 1);
+                        } else if (currentActive === slides.length - 1) {
+                            showSlideByIndex(wrapper, 1);
+                        } else {
+                            showSlideByIndex(wrapper, currentActive + 1);
+                        }
+                    }, 2000);
+                }
+            }
+        }
+
+        // Clean up intervals when page unloads
+        window.addEventListener('beforeunload', () => {
+            Object.values(carouselIntervals).forEach(interval => clearInterval(interval));
+        });
+
+        // ==================== CART SYSTEM ====================
+        
+        // Initialize cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('beardedThreadsCart')) || [];
+
+        // Add to Cart Function
+        function addToCart(productName, price, color, image) {
+            // Check if product already exists in cart
+            const existingItem = cart.find(item => 
+                item.name === productName && item.color === color
+            );
+
+            if (existingItem) {
+                // Increase quantity if item exists
+                existingItem.quantity += 1;
+            } else {
+                // Add new item to cart
+                cart.push({
+                    name: productName,
+                    price: price,
+                    color: color,
+                    image: image,
+                    size: 'L', // Default size - can be made dynamic later
+                    quantity: 1
+                });
+            }
+
+            // Save to localStorage
+            localStorage.setItem('beardedThreadsCart', JSON.stringify(cart));
+
+            // Show confirmation animation
+            showAddedToCartNotification(productName);
+        }
+
+        // Show notification when item is added
+        function showAddedToCartNotification(productName) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 40px;
+                background: linear-gradient(135deg, #d4a574 0%, #c49563 100%);
+                color: #000;
+                padding: 20px 30px;
+                border-radius: 15px;
+                font-weight: 700;
+                letter-spacing: 1px;
+                z-index: 10000;
+                box-shadow: 0 10px 30px rgba(212, 165, 116, 0.4);
+            `;
+            notification.textContent = `✓ ${productName} added to cart!`;
+            document.body.appendChild(notification);
+
+            // Animate in
+            gsap.from(notification, {
+                x: 100,
+                opacity: 0,
+                duration: 0.5,
+                ease: 'back.out(2)'
+            });
+
+            // Animate out and remove
+            setTimeout(() => {
+                gsap.to(notification, {
+                    x: 100,
+                    opacity: 0,
+                    duration: 0.4,
+                    ease: 'power2.in',
+                    onComplete: () => notification.remove()
+                });
+            }, 2500);
+        }
+
+        // Update all ADD TO CART buttons to use the new system
+        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get product data from the link's href parameters
+                const url = new URL(this.href, window.location.origin);
+                const params = new URLSearchParams(url.search);
+                
+                const productSlug = params.get('product');
+                const price = parseFloat(params.get('price'));
+                const color = params.get('color');
+                
+                // Find product name and image from the card
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('.product-name').textContent;
+                const productImage = productCard.querySelector('.carousel-slide.active img').src.split('/').pop();
+                
+                // Add to cart
+                addToCart(productName, price, color, productImage);
+            });
+        });
+
+        // Update cart count in header (optional enhancement)
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            // You can add a cart badge icon here if desired
+        }
+
+        updateCartCount();
+    </script>
+
+    <!-- AI Chatbot -->
+    <button class="chat-button" onclick="toggleChat()">💬</button>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h3>Bearded Threads Assistant</h3>
+            <button class="chat-close" onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-content">
+                    👋 Hi! I'm your Bearded Threads assistant. I can help you with:
+                    <br><br>
+                    • Product information & sizing
+                    <br>• Shipping & returns
+                    <br>• Order tracking
+                    <br>• Material & care instructions
+                    <br><br>
+                    What can I help you with today?
+                </div>
+            </div>
+        </div>
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+            <button class="chat-send" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.classList.toggle('active');
+            
+            if (chatWindow.classList.contains('active')) {
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addMessage(content, isUser) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.innerHTML = content;
+            
+            messageDiv.appendChild(contentDiv);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, true);
+            input.value = '';
+            
+            // Show typing indicator
+            const typingIndicator = document.getElementById('typingIndicator');
+            typingIndicator.classList.add('active');
+            
+            // Simulate thinking time
+            setTimeout(() => {
+                typingIndicator.classList.remove('active');
+                const response = getResponse(message);
+                addMessage(response, false);
+            }, 1000 + Math.random() * 1000);
+        }
+
+        function getResponse(message) {
+            const msg = message.toLowerCase();
+            
+            // Shipping questions
+            if (msg.includes('ship') || msg.includes('deliver') || msg.includes('how long')) {
+                return '📦 We offer free shipping on orders over $100! Orders typically ship within 2-3 business days and arrive within 5-7 business days via standard shipping. Need it faster? Express shipping is available at checkout.';
+            }
+            
+            // Returns & exchanges
+            if (msg.includes('return') || msg.includes('exchange') || msg.includes('refund')) {
+                return '🔄 We offer a 30-day return policy! If you\'re not completely satisfied, you can return unworn items with tags attached for a full refund. Exchanges are always free. Just email support@beardedthreads.com to start the process.';
+            }
+            
+            // Sizing questions
+            if (msg.includes('size') || msg.includes('fit') || msg.includes('large') || msg.includes('small')) {
+                return '📏 Our hoodies feature a relaxed, oversized fit for maximum comfort. We offer sizes S-3XL. For reference:<br><br>• S: Chest 20"<br>• M: Chest 22"<br>• L: Chest 24"<br>• XL: Chest 26"<br>• 2XL: Chest 28"<br>• 3XL: Chest 30"<br><br>We recommend ordering your usual size for a relaxed fit, or size up for an even more oversized look!';
+            }
+            
+            // Material & care
+            if (msg.includes('material') || msg.includes('wash') || msg.includes('care') || msg.includes('fabric') || msg.includes('cotton')) {
+                return '🧵 Our hoodies are made from premium 80% organic cotton and 20% recycled polyester blend (400gsm weight). They\'re OEKO-TEX certified and machine washable! Care instructions: Machine wash cold, tumble dry low. The heavyweight fabric maintains its shape beautifully after multiple washes.';
+            }
+            
+            // Pricing
+            if (msg.includes('price') || msg.includes('cost') || msg.includes('how much') || msg.includes('$')) {
+                return '💰 Our pricing:<br>• Hoodies: $80<br>• T-Shirts: $45<br>• Beanies: $25<br>• Hats: $30-35<br>• Bags: $40-75<br><br>Free shipping on orders over $100!';
+            }
+            
+            // Colors
+            if (msg.includes('color') || msg.includes('available')) {
+                return '🎨 We offer hoodies in multiple colors including Black, Charcoal, Olive, and more! T-shirts come in 8 colors: White, Light Grey, Charcoal, Burgundy, Olive, Black, Rust, and Sage Green. Check out our product pages to see all available options!';
+            }
+            
+            // Sustainability
+            if (msg.includes('sustainable') || msg.includes('eco') || msg.includes('environment') || msg.includes('tree')) {
+                return '🌍 Sustainability is core to our mission! We use organic cotton and recycled polyester, offer carbon-neutral shipping, and plant a tree with every purchase. All materials are ethically sourced and OEKO-TEX certified.';
+            }
+            
+            // Weighted comfort / anxiety
+            if (msg.includes('weight') || msg.includes('anxiety') || msg.includes('comfort') || msg.includes('heavy')) {
+                return '🧘 Our hoodies feature gentle weight distribution (400gsm heavyweight fabric) that provides calming pressure therapy, designed with anxiety relief in mind. Many customers report feeling more grounded and relaxed when wearing them!';
+            }
+            
+            // Order tracking
+            if (msg.includes('track') || msg.includes('order') || msg.includes('where')) {
+                return '📍 To track your order, please check your email for shipping confirmation with tracking details. If you need help with a specific order, please email support@beardedthreads.com with your order number.';
+            }
+            
+            // Stock/availability
+            if (msg.includes('stock') || msg.includes('available') || msg.includes('sold out')) {
+                return '✅ Most items are currently in stock! If you\'re looking for a specific size or color, check the product page for real-time availability. Items sell out quickly, so grab yours while you can!';
+            }
+            
+            // General greeting
+            if (msg.includes('hello') || msg.includes('hi') || msg.includes('hey')) {
+                return '👋 Hello! Welcome to Bearded Threads. How can I help you today? Feel free to ask about our products, shipping, sizing, or anything else!';
+            }
+            
+            // Thanks
+            if (msg.includes('thank') || msg.includes('thanks')) {
+                return '😊 You\'re very welcome! Is there anything else I can help you with today?';
+            }
+            
+            // Default response
+            return 'I\'d be happy to help! You can ask me about:<br><br>• Product info & pricing<br>• Sizing & fit<br>• Shipping & delivery<br>• Returns & exchanges<br>• Materials & care<br>• Sustainability<br><br>What would you like to know?';
+        }
+    </script>
+</body>
+</html>
