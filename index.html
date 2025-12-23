@@ -2181,10 +2181,11 @@
             <div class="footer-section">
                 <h3>NEWSLETTER</h3>
                 <p style="color: #999; font-size: 14px; margin-bottom: 15px;">Subscribe for updates</p>
-                <input type="email" placeholder="Enter your email"
+                <input type="email" id="newsletterEmail" placeholder="Enter your email"
                     style="width: 100%; padding: 12px; border: 1px solid #333; background: #1a1a1a; color: #fff; border-radius: 5px; margin-bottom: 10px;">
-                <button
+                <button id="subscribeBtn" onclick="handleSubscribe()"
                     style="width: 100%; padding: 12px; background: #d4a574; color: #000; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;">SUBSCRIBE</button>
+                <p id="subscribeMessage" style="color: #d4a574; font-size: 14px; margin-top: 10px; display: none;"></p>
             </div>
         </div>
 
@@ -2610,6 +2611,80 @@
         }
 
         updateCartCount();
+
+        // ==================== NEWSLETTER SUBSCRIPTION ====================
+
+        function handleSubscribe() {
+            const emailInput = document.getElementById('newsletterEmail');
+            const subscribeBtn = document.getElementById('subscribeBtn');
+            const message = document.getElementById('subscribeMessage');
+            const email = emailInput.value.trim();
+
+            // Simple email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!email) {
+                // Show error if empty
+                message.textContent = '⚠️ Please enter your email address';
+                message.style.color = '#ff6b6b';
+                message.style.display = 'block';
+
+                // Hide message after 3 seconds
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+                return;
+            }
+
+            if (!emailRegex.test(email)) {
+                // Show error if invalid email
+                message.textContent = '⚠️ Please enter a valid email address';
+                message.style.color = '#ff6b6b';
+                message.style.display = 'block';
+
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+                return;
+            }
+
+            // Success! Show confirmation
+            message.textContent = '✓ Thanks for subscribing! Check your inbox for updates.';
+            message.style.color = '#d4a574';
+            message.style.display = 'block';
+
+            // Change button text temporarily
+            const originalText = subscribeBtn.textContent;
+            subscribeBtn.textContent = 'SUBSCRIBED!';
+            subscribeBtn.style.background = '#6d7a60';
+            subscribeBtn.disabled = true;
+
+            // Clear the input
+            emailInput.value = '';
+
+            // Animate the success message
+            gsap.from(message, {
+                opacity: 0,
+                y: -10,
+                duration: 0.5,
+                ease: 'back.out(2)'
+            });
+
+            // Reset button after 3 seconds
+            setTimeout(() => {
+                subscribeBtn.textContent = originalText;
+                subscribeBtn.style.background = '#d4a574';
+                subscribeBtn.disabled = false;
+                message.style.display = 'none';
+            }, 5000);
+        }
+
+        // Allow Enter key to submit newsletter
+        document.getElementById('newsletterEmail').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                handleSubscribe();
+            }
+        });
     </script>
 
     <!-- AI Chatbot -->
