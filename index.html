@@ -883,46 +883,121 @@
             color: #d4a574;
         }
 
-        /* Mobile Bottom Nav (from Figma) */
+        /* Premium Mobile Bottom Navigation */
         .mobile-bottom-nav {
             display: none;
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.1);
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 400px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 30px;
+            padding: 12px 8px;
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(212, 165, 116, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
             z-index: 1000;
+            border: 1px solid rgba(212, 165, 116, 0.15);
         }
 
         .mobile-nav-items {
             display: flex;
             justify-content: space-around;
             align-items: center;
+            gap: 4px;
         }
 
         .mobile-nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             text-decoration: none;
-            color: #666;
-            font-size: 11px;
+            color: #999;
+            font-size: 10px;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: color 0.3s ease;
+            letter-spacing: 0.3px;
+            padding: 12px 16px;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            flex: 1;
+            min-width: 0;
         }
 
-        .mobile-nav-item:hover,
+        .mobile-nav-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1), rgba(212, 165, 116, 0.05));
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .mobile-nav-item:active {
+            transform: scale(0.95);
+        }
+
         .mobile-nav-item.active {
             color: #d4a574;
+            background: rgba(212, 165, 116, 0.08);
+        }
+
+        .mobile-nav-item.active::before {
+            opacity: 1;
+        }
+
+        .mobile-nav-item.active .mobile-nav-icon {
+            transform: translateY(-2px);
         }
 
         .mobile-nav-icon {
-            font-size: 24px;
-            margin-bottom: 5px;
+            width: 24px;
+            height: 24px;
+            margin-bottom: 6px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .mobile-nav-item.active .mobile-nav-icon {
+            fill: rgba(212, 165, 116, 0.2);
+        }
+
+        /* Ripple effect on tap */
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .mobile-nav-item::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .mobile-nav-item:active::after {
+            animation: ripple 0.6s ease-out;
         }
 
         /* Responsive Design - Mobile First Approach */
@@ -2195,23 +2270,36 @@
         </div>
     </footer>
 
-    <!-- Mobile Bottom Navigation -->
+    <!-- Premium Mobile Bottom Navigation -->
     <nav class="mobile-bottom-nav">
         <div class="mobile-nav-items">
-            <a href="#" class="mobile-nav-item active">
-                <span class="mobile-nav-icon">🏠</span>
+            <a href="#" class="mobile-nav-item active" onclick="setActiveNav(this, event)">
+                <svg class="mobile-nav-icon" viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
                 Home
             </a>
-            <a href="#search" class="mobile-nav-item">
-                <span class="mobile-nav-icon">🔍</span>
-                Search
+            <a href="#shop" class="mobile-nav-item" onclick="setActiveNav(this, event); scrollToSection('shop')">
+                <svg class="mobile-nav-icon" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                Shop
             </a>
-            <a href="#account" class="mobile-nav-item">
-                <span class="mobile-nav-icon">👤</span>
-                Account
+            <a href="#about" class="mobile-nav-item" onclick="setActiveNav(this, event); scrollToSection('about')">
+                <svg class="mobile-nav-icon" viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                About
             </a>
-            <a href="#cart" class="mobile-nav-item">
-                <span class="mobile-nav-icon">🛒</span>
+            <a href="bearded-threads-checkout.html" class="mobile-nav-item">
+                <svg class="mobile-nav-icon" viewBox="0 0 24 24">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
                 Cart
             </a>
         </div>
@@ -2685,6 +2773,18 @@
                 handleSubscribe();
             }
         });
+
+        // ==================== MOBILE NAVIGATION ====================
+
+        function setActiveNav(element, event) {
+            // Remove active class from all nav items
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add active class to clicked item
+            element.classList.add('active');
+        }
     </script>
 
     <!-- AI Chatbot -->
