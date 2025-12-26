@@ -1191,18 +1191,10 @@
                 display: block;
             }
 
-            /* Chat Button - Position above mobile nav */
-            .chat-button {
-                bottom: 120px;
-                right: 20px;
-                width: 55px;
-                height: 55px;
-            }
-
             .chat-window {
                 width: calc(100vw - 40px);
                 right: 20px;
-                bottom: 160px;
+                bottom: 180px;
                 height: 500px;
             }
         }
@@ -1266,6 +1258,16 @@
             justify-content: center;
             font-size: 28px;
             transition: all 0.3s ease;
+        }
+
+        /* Move chat button higher on mobile to avoid navigation */
+        @media (max-width: 768px) {
+            .chat-button {
+                bottom: 130px !important;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+            }
         }
 
         .chat-button:hover {
