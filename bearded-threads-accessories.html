@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accessories - Bearded Threads</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Lato', sans-serif;
             background-color: #000000;
@@ -54,7 +59,9 @@
             border: none;
         }
 
-        .header-btn:hover { color: #d4a574; }
+        .header-btn:hover {
+            color: #d4a574;
+        }
 
         /* Container */
         .container {
@@ -88,7 +95,8 @@
             display: inline-block;
         }
 
-        .filter-btn:hover, .filter-btn.active {
+        .filter-btn:hover,
+        .filter-btn.active {
             background: #d4a574;
             color: #000;
         }
@@ -109,6 +117,8 @@
             transition: all 0.4s ease;
             border: 4px solid #d4a574;
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-card:hover {
@@ -176,6 +186,9 @@
         .product-info {
             padding: 20px;
             background: #ffffff;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-name {
@@ -184,6 +197,11 @@
             letter-spacing: 0.5px;
             margin-bottom: 8px;
             color: #000;
+            min-height: 2.5em;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .product-price {
@@ -198,7 +216,11 @@
             color: #666;
             line-height: 1.6;
             margin-bottom: 15px;
-            min-height: 42px;
+            min-height: 3em;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         /* Color Dots */
@@ -253,44 +275,32 @@
 
         /* Responsive */
         @media (max-width: 1200px) {
-            .products-grid { grid-template-columns: repeat(3, 1fr); }
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         @media (max-width: 900px) {
-            .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 600px) {
-            .products-grid { grid-template-columns: 1fr; }
-            header { padding: 15px 20px; }
-            .container { padding: 90px 20px 40px; }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                padding: 90px 20px 40px;
+            }
         }
 
         /* AI Chatbot Styles */
-        .chat-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #d4a574 0%, #c49563 100%);
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(212, 165, 116, 0.4);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            transition: all 0.3s ease;
-        }
-
-        .chat-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(212, 165, 116, 0.6);
-        }
-
         .chat-window {
             position: fixed;
             bottom: 100px;
@@ -301,14 +311,18 @@
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             z-index: 9998;
-            display: none;
+            display: flex;
             flex-direction: column;
             overflow: hidden;
             border: 2px solid #d4a574;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
         }
 
         .chat-window.active {
-            display: flex;
+            opacity: 1;
+            visibility: visible;
         }
 
         .chat-header {
@@ -447,9 +461,13 @@
         }
 
         @keyframes typing {
-            0%, 60%, 100% {
+
+            0%,
+            60%,
+            100% {
                 transform: translateY(0);
             }
+
             30% {
                 transform: translateY(-10px);
             }
@@ -457,24 +475,148 @@
 
         @media (max-width: 768px) {
             .chat-window {
-                width: calc(100% - 40px);
-                height: calc(100% - 140px);
-                right: 20px;
-                bottom: 100px;
+                top: 70px;
+                bottom: auto;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%) translateY(-10px);
+                width: 90%;
+                height: 60vh;
+                border-radius: 12px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
             }
 
-            .chat-button {
-                right: 20px;
-                bottom: 20px;
+            .chat-window.active {
+                transform: translateX(-50%) translateY(0);
             }
+        }
+
+        /* Search Overlay Styles */
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 15vh;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .search-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .search-overlay-inner {
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .search-close:hover {
+            color: #d4a574;
+            /* Brand accent color */
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #d4a574;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .search-results {
+            margin-top: 1.5rem;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-result-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .search-result-info {
+            flex: 1;
+        }
+
+        .search-result-name {
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .search-result-price {
+            color: #d4a574;
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+
+        .search-no-results {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 2rem;
+            font-size: 1rem;
         }
     </style>
 </head>
+
 <body>
     <header>
         <img src="BTCC2.webp" alt="BT Logo" class="logo-header">
         <div class="header-right">
-            <button class="header-btn">SEARCH</button>
+            <a href="#search" class="search-trigger-btn header-btn"
+                style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">SEARCH</a>
             <button class="header-btn" onclick="toggleChat()">CHAT</button>
             <a href="bearded-threads-checkout.html" class="header-btn">CART</a>
         </div>
@@ -495,7 +637,8 @@
             <div class="product-card">
                 <div class="product-image-container">
                     <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
-                    <img src="black-beanie-product.webp" alt="Black Beanie" class="product-image active" data-type="product">
+                    <img src="black-beanie-product.webp" alt="Black Beanie" class="product-image active"
+                        data-type="product">
                     <img src="black-beanie-model1.webp" alt="Model 1" class="product-image hidden" data-type="model">
                     <img src="black-beanie-model2.webp" alt="Model 2" class="product-image hidden" data-type="model">
                     <img src="black-beanie-model3.webp" alt="Model 3" class="product-image hidden" data-type="model">
@@ -508,7 +651,9 @@
                         <div class="color-dot" style="background-color: #000000;"></div>
                         <div class="color-dot" style="background-color: #9e9e9e;"></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Black Beanie', 25, 'black', 'black-beanie-product.webp')">ADD TO CART</button>
+                    <button class="add-to-cart-btn"
+                        onclick="addToCart('Black Beanie', 25, 'black', 'black-beanie-product.webp')">ADD TO
+                        CART</button>
                     <p class="product-meta">One Size</p>
                 </div>
             </div>
@@ -517,7 +662,8 @@
             <div class="product-card">
                 <div class="product-image-container">
                     <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
-                    <img src="grey-beanie-product.webp" alt="Grey Beanie" class="product-image active" data-type="product">
+                    <img src="grey-beanie-product.webp" alt="Grey Beanie" class="product-image active"
+                        data-type="product">
                     <img src="grey-beanie-model1.webp" alt="Model 1" class="product-image hidden" data-type="model">
                     <img src="grey-beanie-model2.webp" alt="Model 2" class="product-image hidden" data-type="model">
                     <img src="grey-beanie-model3.webp" alt="Model 3" class="product-image hidden" data-type="model">
@@ -530,7 +676,8 @@
                         <div class="color-dot" style="background-color: #9e9e9e;"></div>
                         <div class="color-dot" style="background-color: #000000;"></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Grey Beanie', 25, 'grey', 'grey-beanie-product.webp')">ADD TO CART</button>
+                    <button class="add-to-cart-btn"
+                        onclick="addToCart('Grey Beanie', 25, 'grey', 'grey-beanie-product.webp')">ADD TO CART</button>
                     <p class="product-meta">One Size</p>
                 </div>
             </div>
@@ -539,7 +686,8 @@
             <div class="product-card">
                 <div class="product-image-container">
                     <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
-                    <img src="tan-beanie-product.webp" alt="Tan Beanie" class="product-image active" data-type="product">
+                    <img src="tan-beanie-product.webp" alt="Tan Beanie" class="product-image active"
+                        data-type="product">
                     <img src="tan-beanie-model1.webp" alt="Model 1" class="product-image hidden" data-type="model">
                     <img src="tan-beanie-model2.webp" alt="Model 2" class="product-image hidden" data-type="model">
                     <img src="tan-beanie-model3.webp" alt="Model 3" class="product-image hidden" data-type="model">
@@ -552,7 +700,8 @@
                         <div class="color-dot" style="background-color: #d4a574;"></div>
                         <div class="color-dot" style="background-color: #000000;"></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Tan Beanie', 25, 'tan', 'tan-beanie-product.webp')">ADD TO CART</button>
+                    <button class="add-to-cart-btn"
+                        onclick="addToCart('Tan Beanie', 25, 'tan', 'tan-beanie-product.webp')">ADD TO CART</button>
                     <p class="product-meta">One Size</p>
                 </div>
             </div>
@@ -561,7 +710,8 @@
             <div class="product-card">
                 <div class="product-image-container">
                     <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
-                    <img src="black-snapback-product.webp" alt="Black Snapback" class="product-image active" data-type="product">
+                    <img src="black-snapback-product.webp" alt="Black Snapback" class="product-image active"
+                        data-type="product">
                     <img src="black-snapback-model1.webp" alt="Model 1" class="product-image hidden" data-type="model">
                     <img src="black-snapback-model2.webp" alt="Model 2" class="product-image hidden" data-type="model">
                     <img src="black-snapback-model3.webp" alt="Model 3" class="product-image hidden" data-type="model">
@@ -574,7 +724,9 @@
                         <div class="color-dot" style="background-color: #000000;"></div>
                         <div class="color-dot" style="background-color: #1a237e;"></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Black Snapback', 35, 'black', 'black-snapback-product.webp')">ADD TO CART</button>
+                    <button class="add-to-cart-btn"
+                        onclick="addToCart('Black Snapback', 35, 'black', 'black-snapback-product.webp')">ADD TO
+                        CART</button>
                     <p class="product-meta">Adjustable</p>
                 </div>
             </div>
@@ -583,7 +735,8 @@
             <div class="product-card">
                 <div class="product-image-container">
                     <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
-                    <img src="navy-dadhat-product.webp" alt="Navy Dad Hat" class="product-image active" data-type="product">
+                    <img src="navy-dadhat-product.webp" alt="Navy Dad Hat" class="product-image active"
+                        data-type="product">
                     <img src="navy-dadhat-model1.webp" alt="Model 1" class="product-image hidden" data-type="model">
                     <img src="navy-dadhat-model2.webp" alt="Model 2" class="product-image hidden" data-type="model">
                     <img src="navy-dadhat-model3.webp" alt="Model 3" class="product-image hidden" data-type="model">
@@ -596,7 +749,8 @@
                         <div class="color-dot" style="background-color: #1a237e;"></div>
                         <div class="color-dot" style="background-color: #000000;"></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Navy Dad Hat', 30, 'navy', 'navy-dadhat-product.webp')">ADD TO CART</button>
+                    <button class="add-to-cart-btn"
+                        onclick="addToCart('Navy Dad Hat', 30, 'navy', 'navy-dadhat-product.webp')">ADD TO CART</button>
                     <p class="product-meta">Adjustable</p>
                 </div>
             </div>
@@ -605,7 +759,8 @@
             <div class="product-card">
                 <div class="product-image-container">
                     <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
-                    <img src="olive-trucker-product.webp" alt="Olive Trucker Hat" class="product-image active" data-type="product">
+                    <img src="olive-trucker-product.webp" alt="Olive Trucker Hat" class="product-image active"
+                        data-type="product">
                     <img src="olive-trucker-model1.webp" alt="Model 1" class="product-image hidden" data-type="model">
                     <img src="olive-trucker-model2.webp" alt="Model 2" class="product-image hidden" data-type="model">
                     <img src="olive-trucker-model3.webp" alt="Model 3" class="product-image hidden" data-type="model">
@@ -618,7 +773,9 @@
                         <div class="color-dot" style="background-color: #556b2f;"></div>
                         <div class="color-dot" style="background-color: #000000;"></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Olive Trucker Hat', 30, 'olive', 'olive-trucker-product.webp')">ADD TO CART</button>
+                    <button class="add-to-cart-btn"
+                        onclick="addToCart('Olive Trucker Hat', 30, 'olive', 'olive-trucker-product.webp')">ADD TO
+                        CART</button>
                     <p class="product-meta">Adjustable</p>
                 </div>
             </div>
@@ -627,7 +784,8 @@
             <div class="product-card">
                 <div class="product-image-container">
                     <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
-                    <img src="black-tote-product.webp" alt="Black Tote Bag" class="product-image active" data-type="product">
+                    <img src="black-tote-product.webp" alt="Black Tote Bag" class="product-image active"
+                        data-type="product">
                     <img src="black-tote-model1.webp" alt="Model 1" class="product-image hidden" data-type="model">
                     <img src="black-tote-model2.webp" alt="Model 2" class="product-image hidden" data-type="model">
                     <img src="black-tote-model3.webp" alt="Model 3" class="product-image hidden" data-type="model">
@@ -640,7 +798,9 @@
                         <div class="color-dot" style="background-color: #000000;"></div>
                         <div class="color-dot" style="background-color: #d4a574;"></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Black Tote Bag', 40, 'black', 'black-tote-product.webp')">ADD TO CART</button>
+                    <button class="add-to-cart-btn"
+                        onclick="addToCart('Black Tote Bag', 40, 'black', 'black-tote-product.webp')">ADD TO
+                        CART</button>
                     <p class="product-meta">Large</p>
                 </div>
             </div>
@@ -649,7 +809,8 @@
             <div class="product-card">
                 <div class="product-image-container">
                     <button class="model-toggle-btn" onclick="toggleModel(this)">See On Model</button>
-                    <img src="tan-backpack-product.webp" alt="Tan Backpack" class="product-image active" data-type="product">
+                    <img src="tan-backpack-product.webp" alt="Tan Backpack" class="product-image active"
+                        data-type="product">
                     <img src="tan-backpack-model1.webp" alt="Model 1" class="product-image hidden" data-type="model">
                     <img src="tan-backpack-model2.webp" alt="Model 2" class="product-image hidden" data-type="model">
                     <img src="tan-backpack-model3.webp" alt="Model 3" class="product-image hidden" data-type="model">
@@ -662,7 +823,8 @@
                         <div class="color-dot" style="background-color: #d4a574;"></div>
                         <div class="color-dot" style="background-color: #000000;"></div>
                     </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Tan Backpack', 75, 'tan', 'tan-backpack-product.webp')">ADD TO CART</button>
+                    <button class="add-to-cart-btn"
+                        onclick="addToCart('Tan Backpack', 75, 'tan', 'tan-backpack-product.webp')">ADD TO CART</button>
                     <p class="product-meta">25L</p>
                 </div>
             </div>
@@ -681,57 +843,57 @@
             const container = button.closest('.product-image-container');
             const productImg = container.querySelector('[data-type="product"]');
             const modelImgs = container.querySelectorAll('[data-type="model"]');
-            
+
             // Check if we're currently showing models (looping)
             const isShowingModels = button.textContent === 'See Product';
-            
+
             if (isShowingModels) {
                 // Stop loop and show product
                 clearInterval(modelIntervals[container.id]);
                 delete modelIntervals[container.id];
-                
+
                 // Hide all model images
                 modelImgs.forEach(img => {
                     img.classList.add('hidden');
                     img.classList.remove('active');
                 });
-                
+
                 // Show product image
                 productImg.classList.remove('hidden');
                 productImg.classList.add('active');
-                
+
                 button.textContent = 'See On Model';
             } else {
                 // Start auto-loop through model images
                 let currentModelIndex = 0;
-                
+
                 // Hide product image
                 productImg.classList.add('hidden');
                 productImg.classList.remove('active');
-                
+
                 // Show first model image
                 modelImgs[0].classList.remove('hidden');
                 modelImgs[0].classList.add('active');
-                
+
                 // Create unique ID for this container if it doesn't have one
                 if (!container.id) {
                     container.id = 'container-' + Date.now() + '-' + Math.random();
                 }
-                
+
                 // Auto-loop through model images every 2 seconds
                 modelIntervals[container.id] = setInterval(() => {
                     // Hide current model image
                     modelImgs[currentModelIndex].classList.add('hidden');
                     modelImgs[currentModelIndex].classList.remove('active');
-                    
+
                     // Move to next model image
                     currentModelIndex = (currentModelIndex + 1) % modelImgs.length;
-                    
+
                     // Show next model image
                     modelImgs[currentModelIndex].classList.remove('hidden');
                     modelImgs[currentModelIndex].classList.add('active');
                 }, 2000);
-                
+
                 button.textContent = 'See Product';
             }
         }
@@ -739,9 +901,9 @@
         // Add to Cart Function
         function addToCart(productName, price, color, image) {
             let cart = JSON.parse(localStorage.getItem('beardedThreadsCart')) || [];
-            
+
             // Check if product already exists in cart
-            const existingItem = cart.find(item => 
+            const existingItem = cart.find(item =>
                 item.name === productName && item.color === color
             );
 
@@ -821,10 +983,16 @@
         window.addEventListener('beforeunload', () => {
             Object.values(modelIntervals).forEach(interval => clearInterval(interval));
         });
+
+        // Recalculate after all images load
+        window.addEventListener('load', () => {
+            if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.refresh();
+            }
+        });
     </script>
 
     <!-- AI Chatbot -->
-    <button class="chat-button" onclick="toggleChat()">💬</button>
 
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
@@ -853,7 +1021,8 @@
             </div>
         </div>
         <div class="chat-input-container">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="handleChatKeyPress(event)">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..."
+                onkeypress="handleChatKeyPress(event)">
             <button class="chat-send" onclick="sendChatMessage()">Send</button>
         </div>
     </div>
@@ -862,11 +1031,22 @@
         function toggleChat() {
             const chatWindow = document.getElementById('chatWindow');
             chatWindow.classList.toggle('active');
-            
+
             if (chatWindow.classList.contains('active')) {
                 document.getElementById('chatInput').focus();
             }
         }
+
+        // Close chat when clicking outside
+        document.addEventListener('click', function(e) {
+            const chatWindow = document.getElementById('chatWindow');
+            const chatTrigger = e.target.closest('[onclick*="toggleChat"], .chat-close');
+
+            if (chatWindow && chatWindow.classList.contains('active') &&
+                !chatWindow.contains(e.target) && !chatTrigger) {
+                chatWindow.classList.remove('active');
+            }
+        });
 
         function handleChatKeyPress(event) {
             if (event.key === 'Enter') {
@@ -878,11 +1058,11 @@
             const messagesContainer = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-            
+
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
             contentDiv.innerHTML = content;
-            
+
             messageDiv.appendChild(contentDiv);
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -891,15 +1071,15 @@
         function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
-            
+
             if (!message) return;
-            
+
             addChatMessage(message, true);
             input.value = '';
-            
+
             const typingIndicator = document.getElementById('typingIndicator');
             typingIndicator.classList.add('active');
-            
+
             setTimeout(() => {
                 typingIndicator.classList.remove('active');
                 const response = getChatResponse(message);
@@ -909,53 +1089,221 @@
 
         function getChatResponse(message) {
             const msg = message.toLowerCase();
-            
+
             if (msg.includes('ship') || msg.includes('deliver') || msg.includes('how long')) {
                 return '📦 We offer free shipping on orders over $100! Orders typically ship within 2-3 business days and arrive within 5-7 business days via standard shipping. Need it faster? Express shipping is available at checkout.';
             }
-            
+
             if (msg.includes('return') || msg.includes('exchange') || msg.includes('refund')) {
                 return '🔄 We offer a 30-day return policy! If you\'re not completely satisfied, you can return unworn items with tags attached for a full refund. Exchanges are always free. Just email support@beardedthreads.com to start the process.';
             }
-            
+
             if (msg.includes('size') || msg.includes('fit') || msg.includes('large') || msg.includes('small')) {
                 return '📏 Our accessories come in standard sizes. Hats are adjustable for the perfect fit. If you have specific sizing questions, feel free to ask!';
             }
-            
+
             if (msg.includes('material') || msg.includes('wash') || msg.includes('care') || msg.includes('fabric') || msg.includes('cotton')) {
                 return '🧵 Our accessories are made from quality materials designed to last. Beanies and hats can be hand washed or spot cleaned. Bags are durable and easy to clean with a damp cloth.';
             }
-            
+
             if (msg.includes('price') || msg.includes('cost') || msg.includes('how much') || msg.includes('$')) {
                 return '💰 Our pricing:<br>• Hoodies: $80<br>• T-Shirts: $45<br>• Beanies: $25<br>• Hats: $30-35<br>• Bags: $40-75<br><br>Free shipping on orders over $100!';
             }
-            
+
             if (msg.includes('color') || msg.includes('available')) {
                 return '🎨 Our accessories come in various colors! Beanies are available in black, grey, and tan. Hats come in black, navy, and olive. Bags are available in black and tan. Check out our product pages to see all options!';
             }
-            
+
             if (msg.includes('sustainable') || msg.includes('eco') || msg.includes('environment') || msg.includes('tree')) {
                 return '🌍 Sustainability is core to our mission! We use organic cotton and recycled polyester, offer carbon-neutral shipping, and plant a tree with every purchase. All materials are ethically sourced and OEKO-TEX certified.';
             }
-            
+
             if (msg.includes('track') || msg.includes('order') || msg.includes('where')) {
                 return '📍 To track your order, please check your email for shipping confirmation with tracking details. If you need help with a specific order, please email support@beardedthreads.com with your order number.';
             }
-            
+
             if (msg.includes('stock') || msg.includes('available') || msg.includes('sold out')) {
                 return '✅ Most items are currently in stock! If you\'re looking for a specific item, check the product page for real-time availability. Items sell out quickly, so grab yours while you can!';
             }
-            
+
             if (msg.includes('hello') || msg.includes('hi') || msg.includes('hey')) {
                 return '👋 Hello! Welcome to Bearded Threads. How can I help you today? Feel free to ask about our products, shipping, sizing, or anything else!';
             }
-            
+
             if (msg.includes('thank') || msg.includes('thanks')) {
                 return '😊 You\'re very welcome! Is there anything else I can help you with today?';
             }
-            
+
             return 'I\'d be happy to help! You can ask me about:<br><br>• Product info & pricing<br>• Sizing & fit<br>• Shipping & delivery<br>• Returns & exchanges<br>• Materials & care<br>• Sustainability<br><br>What would you like to know?';
         }
+
+        // Add smooth scrolling to anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // Ignore if it's the search trigger btn to let the script handle it
+                if (this.classList.contains('search-trigger-btn')) return;
+
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-overlay-inner">
+            <button class="search-close" id="searchClose" aria-label="Close search">&times;</button>
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search products..."
+                    autocomplete="off">
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+
+    <!-- Search Overlay Script -->
+    <script>
+        (function () {
+            const overlay = document.getElementById('searchOverlay');
+            const input = document.getElementById('searchInput');
+            const resultsContainer = document.getElementById('searchResults');
+            const closeBtn = document.getElementById('searchClose');
+
+            if (!overlay || !input || !closeBtn) return;
+
+            // Search trigger — delegated listener survives navigation/DOM re-renders
+
+            // Static product index across all pages (28 products)
+            const products = [
+                // Hoodies (index.html)
+                { name: 'Classic Black Hoodie', price: '$80', img: 'BTCChoodie.webp', description: 'Heavy-weight cotton blend, relaxed fit for ultimate comfort.', url: 'index.html#shop' },
+                { name: 'Forest Green Hoodie', price: '$80', img: 'ForestGreenProduct.webp', description: 'Premium cotton blend with signature BT logo.', url: 'index.html#shop' },
+                { name: 'Navy Blue Hoodie', price: '$80', img: 'NavyBlueProduct.webp', description: 'Deep blue heavyweight fabric with embroidered logo.', url: 'index.html#shop' },
+                { name: 'Tan Beige Hoodie', price: '$80', img: 'TanBeigeProduct.webp', description: 'Soft neutral tones with premium stitching.', url: 'index.html#shop' },
+                { name: 'Light Grey Hoodie', price: '$80', img: 'LightGreyProduct.webp', description: 'Minimalist design with maximum comfort.', url: 'index.html#shop' },
+                { name: 'Dark Grey Hoodie', price: '$80', img: 'DarkGreyProduct.webp', description: 'Versatile everyday essential with relaxed fit.', url: 'index.html#shop' },
+                { name: 'Olive Green Hoodie', price: '$80', img: 'OliveGreenProduct.webp', description: 'Military-inspired comfort with urban style.', url: 'index.html#shop' },
+                { name: 'Charcoal Hoodie', price: '$80', img: 'CharcoalProduct.webp', description: 'Deep charcoal with subtle texture detail.', url: 'index.html#shop' },
+                { name: 'Slate Blue Hoodie', price: '$80', img: 'SlateBlueProduct.webp', description: 'Cool tones meet warm comfort.', url: 'index.html#shop' },
+                { name: 'Sand Beige Hoodie', price: '$80', img: 'SandBeigeProduct.webp', description: 'Desert-inspired neutrals with organic cotton.', url: 'index.html#shop' },
+                { name: 'Midnight Black Hoodie', price: '$80', img: 'MidnightBlackProduct.webp', description: 'Classic black with premium finish.', url: 'index.html#shop' },
+                { name: 'Storm Grey Hoodie', price: '$80', img: 'StormGreyProduct.webp', description: 'Weather-inspired tones, cloud-like comfort.', url: 'index.html#shop' },
+
+                // T-Shirts
+                { name: 'White T-Shirt', price: '$45', img: 'white-tshirt-product.webp', description: 'Classic white premium cotton tee with signature BT logo.', url: 'bearded-threads-tshirts.html' },
+                { name: 'Light Grey T-Shirt', price: '$45', img: 'light-grey-tshirt-product.webp', description: 'Soft light grey with modern fit and premium feel.', url: 'bearded-threads-tshirts.html' },
+                { name: 'Charcoal T-Shirt', price: '$45', img: 'charcoal-tshirt-product.webp', description: 'Deep charcoal grey with premium stitching.', url: 'bearded-threads-tshirts.html' },
+                { name: 'Burgundy T-Shirt', price: '$45', img: 'burgundy-tshirt-product.webp', description: 'Rich burgundy color with BTCC embroidery.', url: 'bearded-threads-tshirts.html' },
+                { name: 'Olive T-Shirt', price: '$45', img: 'olive-tshirt-product.webp', description: 'Military-inspired olive with relaxed fit.', url: 'bearded-threads-tshirts.html' },
+                { name: 'Black T-Shirt', price: '$45', img: 'black-tshirt-product.webp', description: 'Classic black tee with premium cotton blend.', url: 'bearded-threads-tshirts.html' },
+                { name: 'Rust T-Shirt', price: '$45', img: 'rust-tshirt-product.webp', description: 'Earthy rust orange with vintage vibe.', url: 'bearded-threads-tshirts.html' },
+                { name: 'Sage Green T-Shirt', price: '$45', img: 'sage-tshirt-product.webp', description: 'Soft sage green with natural comfort.', url: 'bearded-threads-tshirts.html' },
+
+                // Accessories
+                { name: 'Black Beanie', price: '$25', img: 'black-beanie-product.webp', description: 'Classic black beanie with embroidered BT logo.', url: 'bearded-threads-accessories.html' },
+                { name: 'Grey Beanie', price: '$25', img: 'grey-beanie-product.webp', description: 'Heather grey beanie with signature patch.', url: 'bearded-threads-accessories.html' },
+                { name: 'Tan Beanie', price: '$25', img: 'tan-beanie-product.webp', description: 'Warm tan beanie with BTCC embroidery.', url: 'bearded-threads-accessories.html' },
+                { name: 'Black Snapback', price: '$35', img: 'black-snapback-product.webp', description: 'Premium snapback with gold thread logo.', url: 'bearded-threads-accessories.html' },
+                { name: 'Navy Dad Hat', price: '$30', img: 'navy-dadhat-product.webp', description: 'Relaxed navy dad hat with curved brim.', url: 'bearded-threads-accessories.html' },
+                { name: 'Olive Trucker Hat', price: '$30', img: 'olive-trucker-product.webp', description: 'Classic trucker with mesh back panels.', url: 'bearded-threads-accessories.html' },
+                { name: 'Black Tote Bag', price: '$40', img: 'black-tote-product.webp', description: 'Heavy-duty canvas tote with leather straps.', url: 'bearded-threads-accessories.html' },
+                { name: 'Tan Backpack', price: '$75', img: 'tan-backpack-product.webp', description: 'Premium canvas backpack with laptop sleeve.', url: 'bearded-threads-accessories.html' }
+            ];
+
+            function openSearch() {
+                overlay.classList.add('active');
+                input.value = '';
+                resultsContainer.innerHTML = '';
+                setTimeout(() => input.focus(), 100);
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSearch() {
+                overlay.classList.remove('active');
+                input.value = '';
+                resultsContainer.innerHTML = '';
+                document.body.style.overflow = '';
+            }
+
+            function filterProducts(query) {
+                if (!query.trim()) {
+                    resultsContainer.innerHTML = '';
+                    return;
+                }
+
+                const q = query.toLowerCase();
+                const matches = products.filter(p =>
+                    p.name.toLowerCase().includes(q) ||
+                    p.description.toLowerCase().includes(q)
+                );
+
+                if (matches.length === 0) {
+                    resultsContainer.innerHTML = '<div class="search-no-results">No items found</div>';
+                    return;
+                }
+
+                resultsContainer.innerHTML = matches.map((p, i) => `
+                    <div class="search-result-item" data-index="${i}">
+                        ${p.img ? `<img src="${p.img}" alt="${p.name}">` : ''}
+                        <div class="search-result-info">
+                            <div class="search-result-name">${p.name}</div>
+                            ${p.price ? `<div class="search-result-price">${p.price}</div>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+
+                resultsContainer.querySelectorAll('.search-result-item').forEach((item, idx) => {
+                    item.addEventListener('click', () => {
+                        closeSearch();
+                        const match = matches[idx];
+
+                        // Check if item is on the current page
+                        const targetDOM = Array.from(document.querySelectorAll('.product-card')).find(card => {
+                            const titleEl = card.querySelector('.product-name');
+                            return titleEl && titleEl.textContent.trim() === match.name;
+                        });
+
+                        if (targetDOM) {
+                            targetDOM.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            targetDOM.style.outline = '2px solid #d4a574';
+                            setTimeout(() => targetDOM.style.outline = '', 2000);
+                        } else {
+                            window.location.href = match.url;
+                        }
+                    });
+                });
+            }
+
+            document.addEventListener('click', (e) => {
+                const trigger = e.target.closest('.search-trigger-btn');
+                if (trigger) {
+                    e.preventDefault();
+                    openSearch();
+                }
+            });
+
+            closeBtn.addEventListener('click', closeSearch);
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeSearch();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                    closeSearch();
+                }
+            });
+
+            input.addEventListener('input', (e) => {
+                filterProducts(e.target.value);
+            });
+        })();
     </script>
 </body>
+
 </html>
